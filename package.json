@@ -1,0 +1,27 @@
+{
+  "name": "fireshield",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dbreindia/fireshield.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dbreindia/fireshield/issues"
+  },
+  "homepage": "https://github.com/dbreindia/fireshield#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.5.1",
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
+  }
+}
