@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
 
@@ -280,6 +280,10 @@
     </section>
 <!--    About Us:End-->
 <!--What we Do-->
+<!--<object>-->
+<!--&lt;!&ndash;    <p>Your browser does not support PDFs.&ndash;&gt;-->
+<!--       <button><a href="images/Company-Profile.pdf" target="_blank">Download the PDF</a></button>-->
+<!--</object>-->
 
 <section id="">
     <div class="content-wrap">
@@ -293,6 +297,7 @@
                     </div>
                     <p>Holisticly incubate enterprise users whereas just in time sources. Rapidiously transition performance based e-business for bricks-and-clicks methodologies. Intrinsicly network quality interfaces rather than customer directed e-services. Rapidiously implement out-of-the-box content with alternative data. Collaboratively simplify seamless initiatives through sustainable infomediaries. Holisticly aggregate bleeding-edge expertise.</p>
                     <a href="#Section6" class="button button-3d ml-0 bottommargin-sm">Learn More</a>
+<!--                    <embed src="images/Company-Profile.pdf" type="application/pdf" width="100%" height="100%">-->
                 </div>
 
                 <div class="col-lg-6">
@@ -996,7 +1001,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <div class="">
+                    <div id="divSuccess" style="display:none; font-size:16px; background-color:transparent;border:none" class="alert-success">
+                        Thank you for showing interest.One of our teammate would connect with you.
+                    </div>
+
+                    <div class="pb-4">
+
                         <h3>Contact <span>Us</span></h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum tempore autem distinctio qui iure aspernatur doloribus porro blanditiis perspiciatis alias.</p>
                     </div>
@@ -1005,7 +1015,7 @@
 
                         <div class="form-result"></div>
 
-                        <form class="row mb-0" id="template-contactform" name="template-contactform" action="include/form.php" method="post">
+                        <form class="row mb-0" id="template-contactform" name="template-contactform" method="post">
 
                             <div class="form-process">
                                 <div class="css3-spinner">
@@ -1014,32 +1024,26 @@
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label for="template-contactform-name">Name <small>*</small></label>
-                                <input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control border-form-control required" />
+                                <label>Name <small>*</small></label>
+                                <input type="text" id="contact-name" name="template-contactform-name" value="" class="sm-form-control border-form-control required" />
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label for="template-contactform-email">Email <small>*</small></label>
-                                <input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control border-form-control" />
+                                <label>Email <small>*</small></label>
+                                <input type="email" id="contact-email" name="template-contactform-email" value="" class="required email sm-form-control border-form-control" />
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label for="template-contactform-phone">Phone</label>
-                                <input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control border-form-control" />
+                                <label>Phone</label>
+                                <input type="text" id="contact-phone" name="template-contactform-phone" value="" class="sm-form-control border-form-control" />
                             </div>
 
-                            <div class="w-100"></div>
-
-                            <div class="col-md-12 form-group">
-                                <label for="template-contactform-subject">Subject <small>*</small></label>
-                                <input type="text" id="template-contactform-subject" name="subject" value="" class="required sm-form-control border-form-control" />
-                            </div>
 
                             <div class="w-100"></div>
-
+                            <label id="lblEmailError" style="display:none;color:#C3041C">Invalid Email</label>
                             <div class="col-12 form-group">
-                                <label for="template-contactform-message">Message <small>*</small></label>
-                                <textarea class="required sm-form-control border-form-control" id="template-contactform-message" name="template-contactform-message" rows="5" cols="30"></textarea>
+                                <label>Message <small>*</small></label>
+                                <textarea class="required sm-form-control border-form-control" id="contact-message" name="template-contactform-message" rows="5" cols="30"></textarea>
                             </div>
 
                             <div class="col-12 form-group d-none">
@@ -1047,7 +1051,7 @@
                             </div>
 
                             <div class="col-12 form-group">
-                                <button class="button button-3d m-0" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Send Message</button>
+                                <button onclick="postContactDetails();" class="button button-3d m-0" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Send Message</button>
                             </div>
 
                             <input type="hidden" name="prefix" value="template-contactform-">
@@ -1133,10 +1137,101 @@
 <script src="js/jquery.js"></script>
 <script src="js/plugins.min.js"></script>
 <!--<script src="https://maps.google.com/maps/api/js?key=YOUR-API-KEY"></script>-->
+<script src="js/functions.js"></script>
+
+<script src="js/pleaseWait.js"></script>
+
+<script>
+
+    /* $('#contactForm').submit(function (e) {
+         debugger;
+
+         postContactDetails();
+         });*/
+
+
+    function postContactDetails() {
+        if (validation()) {
+            showPleaseWait();
+            $.ajax({
+                type: "POST",
+                url: "dbreService.asmx/PostContactDetails",
+                data: "{'name':'" + $("#contact-name").val() + "','email': '" + $("#contact-email").val() + "','phone':'"+ $("#contact-phone").val()+"', 'message':'" + $("#contact-message").val() + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    hidePleaseWait();
+                    clearControl();
+                    $("#divSuccess").attr("style", "display:block;font-size:16px;background-color:transparent;border:none");
+                    setTimeout(function () {
+                        $("#divSuccess").attr("style", "display:none;font-size:16px;background-color:transparent;border:none");
+                    }, 5000);
+
+                },
+                failure: function (msg) {
+                }
+            });
+        }
+
+    }
+
+    function clearControl() {
+        $("#contact-name,#contact-email,#contact-phone,#contact-message").val("");
+    }
+
+    function validation()
+    {
+        if ($("#contact-name").val().trim() != "" && $("#contact-email").val().trim() != "" && $("#contact-message").val().trim() != "") {
+            if ($("#contact-email").val().trim() != "") {
+                var isValid = isValidEmail($("#contact-email").val().trim())
+                if (isValid == false) {
+                    $("#lblEmailError").attr("style", "display:block;color:#CE041C");
+                }
+                else {
+                    $("#lblEmailError").attr("style", "display:none;color:#CE041C");
+
+                }
+                return isValid;
+            }
+
+        }
+        return false;
+    }
+
+    function isValidEmail(email) {
+        if (email.length <= 2) {
+            return false;
+        }
+        if (email.indexOf("@") == -1) {
+            return false;
+        }
+
+        var parts = email.split("@");
+        var dot = parts[1].indexOf(".");
+        var len = parts[1].length;
+        var dotSplits = parts[1].split(".");
+        var dotCount = dotSplits.length - 1;
+
+
+        if (dot == -1 || dot < 2 || dotCount > 2) {
+            return false;
+        }
+
+        for (var i = 0; i < dotSplits.length; i++) {
+            if (dotSplits[i].length == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+</script>
+
 
 <!-- Footer Scripts
 ============================================= -->
-<script src="js/functions.js"></script>
+
 
 </body>
 </html>
