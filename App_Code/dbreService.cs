@@ -17,7 +17,7 @@ public class dbreService : System.Web.Services.WebService
         {
 
             #region Send Mail 
-            var resoonse = clsMail.SendMail(name, email,phone, message, "New lead received", "Enquiry submitted successfully", "~/EmailTemplate/contactAdminEmailTemplate.html", "~/EmailTemplate/contactUserEmailTemplate.html");
+            var resoonse = clsMail.SendMail(name, email, phone, message, "New lead received", "Enquiry submitted successfully", "~/EmailTemplate/contactAdminEmailTemplate.html", "~/EmailTemplate/contactUserEmailTemplate.html");
             return resoonse;
             #endregion
 
